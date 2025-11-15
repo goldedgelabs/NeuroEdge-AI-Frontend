@@ -1,4 +1,4 @@
-/* Login container */
+/* Login container (modal or standalone) */
 .login-container {
   display: flex;
   flex-direction: column;
@@ -9,7 +9,8 @@
   color: #fff;
   padding: 20px;
   position: relative;
-  z-index: 1000; /* ensure above modal overlay if used */
+  z-index: 1001; /* above modal overlay */
+  transition: all 0.3s ease;
 }
 
 /* Title */
@@ -33,9 +34,11 @@
   width: 100%;
   max-width: 380px;
   box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.3s ease;
+  position: relative;
 }
 
+/* Hover effect */
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(255, 215, 0, 0.4);
@@ -86,35 +89,14 @@
   box-shadow: 0 0 14px rgba(255, 215, 0, 0.8);
 }
 
-.btn.google {
-  background: #4285F4;
-  color: #fff;
-}
+.btn.google { background: #4285F4; color: #fff; }
+.btn.google:hover { opacity: 0.9; transform: scale(1.03); }
 
-.btn.google:hover {
-  opacity: 0.9;
-  transform: scale(1.03);
-}
+.btn.apple { background: #000; color: #fff; }
+.btn.apple:hover { opacity: 0.9; transform: scale(1.03); }
 
-.btn.apple {
-  background: #000;
-  color: #fff;
-}
-
-.btn.apple:hover {
-  opacity: 0.9;
-  transform: scale(1.03);
-}
-
-.btn.github {
-  background: #333;
-  color: #fff;
-}
-
-.btn.github:hover {
-  opacity: 0.9;
-  transform: scale(1.03);
-}
+.btn.github { background: #333; color: #fff; }
+.btn.github:hover { opacity: 0.9; transform: scale(1.03); }
 
 /* Divider text */
 .divider {
@@ -142,7 +124,7 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Optional modal overlay for guest login */
+/* Modal overlay for login */
 .login-modal-overlay {
   position: fixed;
   top: 0;
@@ -150,13 +132,21 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.75);
-  z-index: 900;
+  z-index: 1000;
   display: flex;
   justify-content: center;
   align-items: center;
+  opacity: 0;
+  animation: fadeIn 0.25s forwards;
 }
 
-/* Close button for modal (optional) */
+/* Modal card inside overlay */
+.login-modal {
+  position: relative;
+  animation: slideUp 0.25s ease-out forwards;
+}
+
+/* Close button for modal */
 .login-modal-close {
   position: absolute;
   top: 16px;
@@ -169,4 +159,15 @@
 
 .login-modal-close:hover {
   transform: scale(1.2);
-  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
