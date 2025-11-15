@@ -8,12 +8,8 @@ export default function SplashScreen() {
         src="/neuroedge-logo.png" 
         alt="NeuroEdge Logo" 
         className="splash-logo"
-        style={{ animation: 'scaleFade 0.8s ease-in-out forwards' }}
       />
-      <p 
-        className="splash-text" 
-        style={{ animation: 'fadeInText 0.8s ease-in-out forwards', animationDelay: '0.3s' }}
-      >
+      <p className="splash-text">
         NeuroEdge
       </p>
     </div>
