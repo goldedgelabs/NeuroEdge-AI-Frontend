@@ -3,4 +3,9 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles/globals.css";
 
-ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+// Wrap App with StrictMode for better dev checks and future compatibility
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
