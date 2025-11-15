@@ -1,3 +1,5 @@
+/* SplashScreen.css */
+
 .splash-container {
   position: fixed;
   inset: 0;
@@ -6,38 +8,36 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  animation: splashFade 0.9s ease-out forwards;
-  animation-delay: 0.5s;
+  animation: fadeOut 0.8s ease-out forwards;
+  animation-delay: 0.8s;
+  z-index: 999;
 }
 
 .splash-logo {
   width: 140px;
   height: 140px;
-  animation: logoPulse 1.2s ease-in-out infinite alternate;
+  animation: logoPulse 1.2s infinite alternate ease-in-out;
 }
 
 .splash-text {
   font-size: 1.6rem;
   margin-top: 18px;
+  color: #FFD700; /* golden premium text */
+  text-shadow: 0 0 6px #FFD700;
   opacity: 0.9;
-  color: #00eaff;
-  text-shadow: 0 0 8px #00eaff;
-  animation: textGlow 1.5s ease-in-out infinite alternate;
 }
 
-@keyframes splashFade {
-  0% { opacity: 1; }
-  100% { opacity: 0; visibility: hidden; }
+/* fade out animation for splash */
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
+/* gentle pulse animation for logo */
 @keyframes logoPulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.08); }
+  50% { transform: scale(1.1); }
   100% { transform: scale(1); }
-}
-
-@keyframes textGlow {
-  0% { text-shadow: 0 0 6px #00eaff; }
-  50% { text-shadow: 0 0 14px #00eaff; }
-  100% { text-shadow: 0 0 6px #00eaff; }
 }
