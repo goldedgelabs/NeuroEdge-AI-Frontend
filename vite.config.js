@@ -26,13 +26,14 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
+            
             urlPattern: /^.*\.(png|jpg|jpeg|svg|css|js)$/,
             handler: "CacheFirst",
             options: {
               cacheName: "asset-cache",
               expiration: {
                 maxEntries: 100,
-                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
+                maxAgeSeconds: 2592000 
               }
             }
           }
