@@ -15,7 +15,7 @@ export default function Home() {
           <ConnectionStatusDot color="red" />
         </div>
 
-        <button className="signin-btn">Sign In</button>
+        <button className="signin-btn" aria-label="Sign In">Sign In</button>
       </header>
 
       <h2 className="question">What would you like NeuroEdge to do?</h2>
@@ -23,13 +23,13 @@ export default function Home() {
       <MenuButtons />
 
       <div className="bottom-input">
-        <button className="attach-btn">+</button>
-        <input placeholder="Ask NeuroEdge anything..." />
+        <button className="attach-btn" aria-label="Attach file">+</button>
+        <input placeholder="Ask NeuroEdge anything..." aria-label="Type your question" />
         <VoiceCommandButton />
-        <button className="send-btn">➤</button>
+        <button className="send-btn" aria-label="Send">➤</button>
       </div>
 
       <p className="footer-note">NeuroEdge can make mistakes. Check important info.</p>
     </div>
   );
-    }
+  }
