@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import MenuButtons from "./MenuButtons";
 import VoiceCommandButton from "./VoiceCommandButton";
 import ConnectionStatusDot from "./ConnectionStatusDot";
@@ -8,33 +8,45 @@ export default function Home({ currentUser }) {
   const [isSending, setIsSending] = useState(false);
   const [files, setFiles] = useState([]);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const dropRef = useRef(null);
 
   // Handle send button click
   const handleSend = () => {
     if (!isSending) {
       setIsSending(true);
-      // Simulate sending process (replace with API logic)
       setTimeout(() => setIsSending(false), 1500);
     }
   };
 
-  // Handle file selection
+  // Handle files (from input or drop)
+  const handleFiles = (newFiles) => {
+    setFiles((prev) => [...prev, ...Array.from(newFiles)]);
+  };
+
+  // Input change
   const handleFileChange = (e) => {
-    setFiles(Array.from(e.target.files));
+    handleFiles(e.target.files);
+  };
+
+  // Drag & Drop handlers
+  const handleDragOver = (e) => e.preventDefault();
+  const handleDrop = (e) => {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+      handleFiles(e.dataTransfer.files);
+      e.dataTransfer.clearData();
+    }
   };
 
   return (
     <div className="home-container">
       <header className="top-bar">
         <h1 className="title">NeuroEdge</h1>
-
         <div className="status-dots">
           <ConnectionStatusDot color="cyan" />
           <ConnectionStatusDot color="yellow" />
           <ConnectionStatusDot color="red" />
         </div>
-
-        {/* Show login button only if user is not logged in */}
         {!currentUser && (
           <button
             className="signin-btn premium-btn"
@@ -47,11 +59,15 @@ export default function Home({ currentUser }) {
       </header>
 
       <h2 className="question">What would you like NeuroEdge to do?</h2>
-
       <MenuButtons />
 
-      <div className="bottom-input">
-        {/* Attach / Upload Button */}
+      {/* Drag & Drop / File Upload */}
+      <div
+        className="bottom-input"
+        ref={dropRef}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
         <label htmlFor="file-upload" className="attach-btn premium-btn" title="Upload files">
           📎
         </label>
@@ -64,16 +80,13 @@ export default function Home({ currentUser }) {
           accept="image/*,video/*,application/pdf,*/*"
         />
 
-        {/* Text Input */}
         <input
           placeholder="Ask NeuroEdge anything..."
           aria-label="Type your question"
         />
 
-        {/* Voice Command Button */}
         <VoiceCommandButton />
 
-        {/* Send Button with loader */}
         <button
           className="send-btn premium-btn"
           onClick={handleSend}
@@ -83,7 +96,7 @@ export default function Home({ currentUser }) {
         </button>
       </div>
 
-      {/* Preview uploaded files */}
+      {/* File preview */}
       {files.length > 0 && (
         <div className="upload-preview">
           {files.map((file, index) => (
@@ -110,7 +123,7 @@ export default function Home({ currentUser }) {
             className="login-modal"
             onClick={(e) => e.stopPropagation()}
           >
-            <LoginPage />
+            <LoginPage onClose={() => setShowLoginModal(false)} />
             <button
               className="login-modal-close"
               onClick={() => setShowLoginModal(false)}
@@ -127,4 +140,4 @@ export default function Home({ currentUser }) {
       </p>
     </div>
   );
-                }
+    }
