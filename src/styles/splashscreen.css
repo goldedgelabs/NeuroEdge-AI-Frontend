@@ -1,43 +1,100 @@
-/* SplashScreen.css */
+/* splashscreen.css */
 
-.splash-container {
-  position: fixed;
-  inset: 0;
+/* Base styling */
+body, .splash-container {
+  margin: 0;
   background: #000;
+  font-family: 'Arial', sans-serif;
+  color: #fff;
+  height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  animation: fadeOut 0.8s ease-out forwards;
-  animation-delay: 0.8s;
-  z-index: 999;
+  flex-direction: column;
 }
 
-.splash-logo {
-  width: 140px;
-  height: 140px;
-  animation: logoPulse 1.2s infinite alternate ease-in-out;
+/* Splash title */
+.splash-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #FFD700;
+  text-shadow: 0 0 8px #FFD700;
+  margin-bottom: 20px;
 }
 
-.splash-text {
-  font-size: 1.6rem;
-  margin-top: 18px;
-  color: #FFD700; /* golden premium text */
-  text-shadow: 0 0 6px #FFD700;
-  opacity: 0.9;
+/* Loading indicator */
+.splash-loader {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(255, 215, 0, 0.3);
+  border-top: 3px solid #FFD700;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
 }
 
-/* fade out animation for splash */
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
+/* Optional footer note */
+.splash-footer {
+  font-size: 0.85rem;
+  color: #aaa;
+  opacity: 0.7;
+  text-align: center;
+  position: absolute;
+  bottom: 20px;
+  width: 100%;
 }
 
-/* gentle pulse animation for logo */
-@keyframes logoPulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+/* Buttons (Sign In / Get Started) */
+.splash-btn {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  padding: 10px 20px;
+  border-radius: 22px;
+  border: 1px solid #FFD700;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+}
+
+.splash-btn:hover {
+  background: #fff;
+  color: #000;
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.8);
+}
+
+/* Loader circle animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Upload preview */
+.upload-preview {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.file-preview {
+  border: 1px solid #FFD700;
+  padding: 6px;
+  border-radius: 12px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 120px;
+  max-height: 120px;
+  overflow: hidden;
+  font-size: 0.75rem;
+  color: #FFD700;
+}
+
+.file-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
 }
