@@ -4,11 +4,22 @@ import Home from "./components/Home";
 
 export default function App() {
   const [showSplash, setShowSplash] = useState(true);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 1300); 
-    return () => clearTimeout(timer);
+    // Start fade-out earlier for smoother transition
+    const fadeTimer = setTimeout(() => setFadeOut(true), 900);
+    const removeTimer = setTimeout(() => setShowSplash(false), 1400);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(removeTimer);
+    };
   }, []);
 
-  return showSplash ? <SplashScreen /> : <Home />;
+  return (
+    <div className={`app-wrapper ${fadeOut ? "fade-out" : ""}`}>
+      {showSplash ? <SplashScreen /> : <Home />}
+    </div>
+  );
 }
