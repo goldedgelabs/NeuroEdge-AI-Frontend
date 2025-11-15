@@ -46,29 +46,35 @@ export default function Home() {
       <MenuButtons />
 
       <div className="bottom-input">
-        <label htmlFor="file-upload" className="attach-btn premium-btn" title="Upload files">📎</label>
+        {/* Attach / Upload Button */}
+        <label htmlFor="file-upload" className="attach-btn premium-btn" title="Upload files">
+          📎
+        </label>
         <input
           id="file-upload"
           type="file"
           multiple
           style={{ display: "none" }}
           onChange={handleFileChange}
+          accept="image/*,video/*,application/pdf,*/*"
         />
+
+        {/* Text Input */}
         <input
           placeholder="Ask NeuroEdge anything..."
           aria-label="Type your question"
         />
+
+        {/* Voice Command Button */}
         <VoiceCommandButton />
+
+        {/* Send Button with loader */}
         <button
           className="send-btn premium-btn"
           onClick={handleSend}
           aria-label="Send"
         >
-          {isSending ? (
-            <div className="loader-circle"></div>
-          ) : (
-            "➤"
-          )}
+          {isSending ? <div className="loader-circle"></div> : "➤"}
         </button>
       </div>
 
@@ -79,6 +85,8 @@ export default function Home() {
             <div key={index} className="file-preview">
               {file.type.startsWith("image/") ? (
                 <img src={URL.createObjectURL(file)} alt={file.name} />
+              ) : file.type.startsWith("video/") ? (
+                <video src={URL.createObjectURL(file)} controls />
               ) : (
                 <p>{file.name}</p>
               )}
@@ -92,4 +100,4 @@ export default function Home() {
       </p>
     </div>
   );
-      }
+}
