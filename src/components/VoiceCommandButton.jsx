@@ -5,7 +5,6 @@ export default function VoiceCommandButton() {
     <button 
       className="voice-btn" 
       aria-label="Activate Voice Command"
-      style={{ transition: 'all 0.2s ease' }}
     >
       <div className="wave"></div>
       <div className="wave"></div>
