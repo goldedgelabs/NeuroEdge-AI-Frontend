@@ -26,7 +26,7 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
-            // Cache all local static assets
+            // Cache all local assets: images, CSS, JS
             urlPattern: /^.*\.(png|jpg|jpeg|svg|css|js)$/,
             handler: "CacheFirst",
             options: {
