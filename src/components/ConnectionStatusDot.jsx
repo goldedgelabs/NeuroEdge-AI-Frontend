@@ -22,10 +22,14 @@ export default function ConnectionStatusDot({ color }) {
 
   return (
     <div
-      className="status-dot"
+      className={`status-dot ${online ? 'online' : 'offline'}`}
       style={{
-        backgroundColor: online ? colors[color] : "#444",
+        backgroundColor: online ? colors[color] : '#444',
+        boxShadow: online ? `0 0 12px ${colors[color]}` : '0 0 6px #444',
+        transition: 'all 0.3s ease',
       }}
+      title={online ? 'Online' : 'Offline'}
+      aria-label={`Connection status: ${online ? 'online' : 'offline'}`}
     />
   );
 }
