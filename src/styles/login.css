@@ -1,3 +1,4 @@
+/* Login container */
 .login-container {
   display: flex;
   flex-direction: column;
@@ -7,8 +8,11 @@
   background: linear-gradient(135deg, #000000, #111111);
   color: #fff;
   padding: 20px;
+  position: relative;
+  z-index: 1000; /* ensure above modal overlay if used */
 }
 
+/* Title */
 .title {
   font-size: 2rem;
   color: #FFD700;
@@ -18,6 +22,7 @@
   font-weight: bold;
 }
 
+/* Card styling */
 .card {
   background: #111;
   padding: 30px 20px;
@@ -28,8 +33,15 @@
   width: 100%;
   max-width: 380px;
   box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(255, 215, 0, 0.4);
+}
+
+/* Input fields */
 .input-field {
   padding: 12px 16px;
   border-radius: 14px;
@@ -47,6 +59,7 @@
   background: #111;
 }
 
+/* Buttons */
 .btn {
   padding: 12px 18px;
   border-radius: 22px;
@@ -55,6 +68,9 @@
   cursor: pointer;
   border: none;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn.primary {
@@ -100,6 +116,7 @@
   transform: scale(1.03);
 }
 
+/* Divider text */
 .divider {
   text-align: center;
   font-size: 0.9rem;
@@ -107,7 +124,7 @@
   color: #aaa;
 }
 
-/* Optional loader for premium effect */
+/* Loader circle for buttons */
 .loader-circle {
   border: 2px solid rgba(255, 215, 0, 0.3);
   border-top: 2px solid #FFD700;
@@ -123,4 +140,33 @@
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
-      }
+}
+
+/* Optional modal overlay for guest login */
+.login-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: 900;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Close button for modal (optional) */
+.login-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  font-size: 1.5rem;
+  color: #FFD700;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.login-modal-close:hover {
+  transform: scale(1.2);
+  }
