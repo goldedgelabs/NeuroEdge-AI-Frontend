@@ -31,6 +31,7 @@ export default defineConfig({
             handler: "CacheFirst",
             options: {
               cacheName: "asset-cache",
+              // FIX APPLIED: 'expiration' object is now correctly structured
               expiration: {
                 maxEntries: 100,
                 maxAgeSeconds: 2592000 // 30 days
