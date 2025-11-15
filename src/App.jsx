@@ -11,8 +11,8 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [loadingAuth, setLoadingAuth] = useState(true); // wait for auth check
 
+  // Splash screen fade-out
   useEffect(() => {
-    // Splash screen fade-out timing
     const fadeTimer = setTimeout(() => setFadeOut(true), 900);
     const removeTimer = setTimeout(() => setShowSplash(false), 1400);
 
@@ -22,8 +22,8 @@ export default function App() {
     };
   }, []);
 
+  // Firebase Auth listener
   useEffect(() => {
-    // Listen to Firebase Auth state
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);
       setLoadingAuth(false);
@@ -31,28 +31,28 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  if (showSplash) {
-    return <SplashScreen />;
-  }
+  if (showSplash) return <SplashScreen />;
 
-  if (loadingAuth) {
-    // Optional: show a loading spinner while checking auth
-    return <div className="auth-loading">Checking authentication...</div>;
-  }
+  if (loadingAuth) return <div className="auth-loading">Checking authentication...</div>;
 
   return (
     <BrowserRouter>
       <Routes>
+        {/* Optional login: show LoginPage modal only if user clicks "Get Started" */}
         <Route
           path="/login"
-          element={!currentUser ? <LoginPage /> : <Navigate to="/app" />}
+          element={<LoginPage />}
         />
+        {/* Main app: allow guest users */}
         <Route
           path="/app"
-          element={currentUser ? <Home /> : <Navigate to="/login" />}
+          element={<Home currentUser={currentUser} />}
         />
-        <Route path="*" element={<Navigate to={currentUser ? "/app" : "/login"} />} />
+        <Route
+          path="*"
+          element={<Navigate to="/app" />}
+        />
       </Routes>
     </BrowserRouter>
   );
-            }
+}
