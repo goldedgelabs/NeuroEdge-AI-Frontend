@@ -11,7 +11,7 @@ export default function MenuButtons() {
     { label: "Build with Code", emoji: "💻" },
     { label: "Analyze & Predict", emoji: "🔍" },
     { label: "Understand Images", emoji: "🖼️" },
-    { label: "Translate & Explore", emoji: "🌐" }, // premium 10th button
+    { label: "Translate & Explore", emoji: "🌐" },
   ];
 
   const [showAll, setShowAll] = useState(false);
@@ -20,16 +20,26 @@ export default function MenuButtons() {
   return (
     <div className="button-grid">
       {display.map(({ label, emoji }) => (
-        <button className="menu-btn premium-btn" key={label}>
-          <span style={{ marginRight: "8px" }}>{emoji}</span> {label}
+        <button
+          className="menu-btn premium-btn"
+          key={label}
+          title="Premium feature"
+          onClick={() => alert("Upgrade to Premium to use this feature!")}
+        >
+          <span style={{ marginRight: "8px" }}>{emoji}</span>
+          {label}
+          <span role="img" aria-label="Premium" style={{ marginLeft: "4px" }}>🔒</span>
         </button>
       ))}
 
       {!showAll && (
-        <button className="menu-btn more-btn" onClick={() => setShowAll(true)}>
+        <button
+          className="menu-btn more-btn"
+          onClick={() => setShowAll(true)}
+        >
           ➕ More
         </button>
       )}
     </div>
   );
-}
+     }
