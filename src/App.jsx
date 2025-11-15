@@ -9,13 +9,12 @@ export default function App() {
   const [showSplash, setShowSplash] = useState(true);
   const [fadeOut, setFadeOut] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [loadingAuth, setLoadingAuth] = useState(true); // wait for auth check
+  const [loadingAuth, setLoadingAuth] = useState(true);
 
   // Splash screen fade-out
   useEffect(() => {
     const fadeTimer = setTimeout(() => setFadeOut(true), 900);
     const removeTimer = setTimeout(() => setShowSplash(false), 1400);
-
     return () => {
       clearTimeout(fadeTimer);
       clearTimeout(removeTimer);
@@ -31,28 +30,23 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  if (showSplash) return <SplashScreen />;
+  if (showSplash) return <SplashScreen fadeOut={fadeOut} />;
 
-  if (loadingAuth) return <div className="auth-loading">Checking authentication...</div>;
+  if (loadingAuth)
+    return <div className="auth-loading">Checking authentication...</div>;
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* Optional login: show LoginPage modal only if user clicks "Get Started" */}
-        <Route
-          path="/login"
-          element={<LoginPage />}
-        />
-        {/* Main app: allow guest users */}
-        <Route
-          path="/app"
-          element={<Home currentUser={currentUser} />}
-        />
-        <Route
-          path="*"
-          element={<Navigate to="/app" />}
-        />
+        {/* Optional login modal route */}
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Main app route, accessible to guest users */}
+        <Route path="/app" element={<Home currentUser={currentUser} />} />
+
+        {/* Default redirect */}
+        <Route path="*" element={<Navigate to="/app" />} />
       </Routes>
     </BrowserRouter>
   );
-}
+        }
