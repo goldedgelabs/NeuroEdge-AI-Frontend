@@ -127,4 +127,4 @@ export default function Home({ currentUser }) {
       </p>
     </div>
   );
-        }
+                }
