@@ -124,15 +124,18 @@ body {
   background: #111;
   border-radius: 28px;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5), 0 0 8px rgba(255, 215, 0, 0.2);
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border 0.25s ease;
   z-index: 10;
 }
 
-.bottom-input:hover {
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6), 0 0 12px rgba(255, 215, 0, 0.3);
-  transform: translateX(-50%) translateY(-2px);
+/* Drag-over highlight */
+.bottom-input.drag-over {
+  border: 2px dashed #FFD700;
+  background: #1a1a1a;
+  box-shadow: 0 6px 24px rgba(255, 215, 0, 0.4);
 }
 
+/* Input inside bottom container */
 .bottom-input input {
   flex: 1;
   padding: 14px 16px;
@@ -253,8 +256,7 @@ body {
   color: #FFD700;
 }
 
-.file-preview img,
-.file-preview video {
+.file-preview img {
   max-width: 100%;
   max-height: 100%;
   object-fit: cover;
