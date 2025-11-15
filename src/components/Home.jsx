@@ -4,16 +4,12 @@ import VoiceCommandButton from "./VoiceCommandButton";
 import ConnectionStatusDot from "./ConnectionStatusDot";
 
 export default function Home() {
-  const [loading, setLoading] = useState(false);
+  const [sending, setSending] = useState(false);
 
   const handleSend = () => {
-    if (loading) return;
-    setLoading(true);
-
-    // Simulate sending / processing
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    setSending(true);
+    // simulate async send
+    setTimeout(() => setSending(false), 1500);
   };
 
   return (
@@ -27,9 +23,7 @@ export default function Home() {
           <ConnectionStatusDot color="red" />
         </div>
 
-        <button className="signin-btn" aria-label="Sign In">
-          Sign In
-        </button>
+        <button className="signin-btn" aria-label="Sign In">Sign In</button>
       </header>
 
       <h2 className="question">What would you like NeuroEdge to do?</h2>
@@ -38,23 +32,24 @@ export default function Home() {
 
       <div className="bottom-input">
         <button className="attach-btn" aria-label="Attach file">+</button>
-
-        <div className={`input-wrapper ${loading ? "loading" : ""}`}>
-          <input
-            placeholder="Ask NeuroEdge..."
-            aria-label="Type your question"
-            disabled={loading}
-          />
-          {loading && <div className="rotating-loader"></div>}
-        </div>
-
+        <input
+          placeholder="Ask NeuroEdge anything..."
+          aria-label="Type your question"
+        />
         <VoiceCommandButton />
-        <button className="send-btn" aria-label="Send" onClick={handleSend}>
-          ➤
+        <button
+          className={`send-btn ${sending ? "sending" : ""}`}
+          onClick={handleSend}
+          aria-label="Send"
+        >
+          <span className="send-text">➤</span>
+          <span className="spinner"></span>
         </button>
       </div>
 
-      <p className="footer-note">NeuroEdge can make mistakes. Check important info.</p>
+      <footer className="footer-note">
+        NeuroEdge can make mistakes. Check important info.
+      </footer>
     </div>
   );
-        }
+}
