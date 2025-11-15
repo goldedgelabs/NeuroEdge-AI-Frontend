@@ -43,13 +43,13 @@ body {
   background: #111;
   padding: 8px 16px;
   border-radius: 22px;
-  border: 1px solid #00eaff;
-  color: #00eaff;
+  border: 1px solid #ffd700; /* golden */
+  color: #ffd700;
   transition: all 0.2s ease;
 }
 
 .signin-btn:hover {
-  background: #00eaff;
+  background: #ffd700;
   color: #000;
 }
 
@@ -77,9 +77,9 @@ body {
 }
 
 .menu-btn:hover {
-  background: #00eaff;
+  background: #ffd700;
   color: #000;
-  border-color: #00eaff;
+  border-color: #ffd700;
 }
 
 .more-btn {
@@ -89,81 +89,152 @@ body {
 
 .bottom-input {
   position: fixed;
-  bottom: 40px; /* leave space for footer */
-  left: 0;
-  right: 0;
+  bottom: 60px; /* slightly above footer */
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 720px;
+  width: calc(100% - 40px);
   display: flex;
   gap: 10px;
-  padding: 0 20px;
+  padding: 10px 16px;
   align-items: center;
+  background: #111;
+  border-radius: 28px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.5),
+              0 0 8px rgba(255, 215, 0, 0.2);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
   z-index: 10;
+}
+
+.bottom-input:hover {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6),
+              0 0 12px rgba(255, 215, 0, 0.3);
+  transform: translateX(-50%) translateY(-2px);
 }
 
 .bottom-input input {
   flex: 1;
-  padding: 12px;
+  padding: 14px 16px;
   border-radius: 20px;
   border: none;
-  background: #111;
+  background: #222;
   color: #fff;
+  font-size: 1rem;
   outline: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .bottom-input input:focus {
-  outline: 2px solid #00eaff;
+  outline: 2px solid #ffd700;
+  background: #111;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
 }
 
-.voice-btn {
-  width: 38px;
-  height: 38px;
+.bottom-input button {
   background: #111;
+  border: none;
   border-radius: 50%;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  transition: all 0.2s ease;
+  color: #ffd700;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2);
 }
 
-.voice-btn:hover {
-  background: #00eaff;
+.bottom-input button:hover {
+  background: #ffd700;
+  color: #000;
+  box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+  transform: translateY(-2px);
+}
+
+.bottom-input .voice-btn {
+  width: 44px;
+  height: 44px;
 }
 
 .wave {
   width: 3px;
   height: 10px;
   margin: 0 2px;
-  background: #0ff;
+  background: #ffd700;
   animation: waveAnim 0.9s infinite ease-in-out;
 }
 
 .wave:nth-child(2) { animation-delay: 0.15s; }
 .wave:nth-child(3) { animation-delay: 0.3s; }
 
+.voice-btn.listening {
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.8),
+              0 0 24px rgba(255, 215, 0, 0.4);
+  animation: rotateGlow 1.5s linear infinite;
+}
+
+.send-btn {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: #111;
+  color: #ffd700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.send-btn .spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #ffd700;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: absolute;
+}
+
+.send-btn.sending .send-text {
+  display: none;
+}
+
+.send-btn.sending .spinner {
+  display: block;
+}
+
+.footer-note {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: #aaa;
+  opacity: 0.8;
+}
+
+/* Animations */
 @keyframes waveAnim {
   0% { height: 5px; }
   50% { height: 18px; }
   100% { height: 5px; }
 }
 
-/* Footer fixed to bottom */
-.footer-note {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  text-align: center;
-  font-size: 0.85rem;
-  opacity: 0.7;
-  color: #aaa;
-  padding: 6px 0;
-  background: #000; /* ensures contrast */
-  z-index: 20;
+@keyframes rotateGlow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
-/* Status dot blinking animation */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @keyframes blinkOnline {
   0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(0, 234, 255, 0.6); }
   50% { transform: scale(1.3); box-shadow: 0 0 18px rgba(0, 234, 255, 1); }
-}
+                            }
