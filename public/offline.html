@@ -3,26 +3,52 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Offline - NeuroEdge</title>
+  <title>NeuroEdge Offline</title>
+  <link rel="icon" href="/favicon.ico" />
   <style>
     body {
+      margin: 0;
+      padding: 0;
       background: #000;
-      color: #fff;
-      font-family: 'Arial', sans-serif;
+      color: #00eaff;
+      font-family: Arial, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       height: 100vh;
-      margin: 0;
       text-align: center;
     }
-    h1 { font-size: 2rem; color: #00eaff; }
-    p { font-size: 1rem; opacity: 0.8; }
+
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin-bottom: 20px;
+      animation: pulse 1.5s infinite;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #aaa;
+      margin: 0 20px;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.1); opacity: 1; }
+      100% { transform: scale(1); opacity: 0.8; }
+    }
   </style>
 </head>
 <body>
-  <h1>NeuroEdge is Offline</h1>
-  <p>Please check your internet connection and try again.</p>
+  <img src="/neuroedge-logo.png" alt="NeuroEdge Logo" class="logo" />
+  <h1>You're Offline</h1>
+  <p>NeuroEdge needs an internet connection to function. Please check your network and try again.</p>
+  <p>All your previously loaded pages and assets may still work thanks to PWA caching.</p>
 </body>
 </html>
