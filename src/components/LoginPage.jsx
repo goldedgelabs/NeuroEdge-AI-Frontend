@@ -3,17 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { signInEmail, signInWithGoogle, signInWithGitHub, signInWithApple } from './AuthService';
 import '../styles/login.css';
 
-export default function LoginPage() {
+export default function LoginPage({ onClose }) {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // optional loader
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleEmailLogin = () => {
     if (!email || !pw) return alert("Please enter email and password.");
     setIsLoading(true);
+
     signInEmail(email, pw)
-      .then(() => navigate('/app'))
+      .then(() => {
+        navigate('/app');
+        onClose?.(); // close modal if used
+      })
       .catch(err => alert(err.message))
       .finally(() => setIsLoading(false));
   };
@@ -23,6 +27,7 @@ export default function LoginPage() {
     try {
       await providerFn();
       navigate('/app');
+      onClose?.();
     } catch (err) {
       alert(err.message);
     } finally {
@@ -35,24 +40,25 @@ export default function LoginPage() {
       <h1 className="title">Sign in to NeuroEdge</h1>
 
       <div className="card">
-        {/* Email Input */}
+        {/* Email & Password */}
         <input
           type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
           placeholder="Email address"
           className="input-field"
+          disabled={isLoading}
         />
-        {/* Password Input */}
         <input
           type="password"
           value={pw}
           onChange={e => setPw(e.target.value)}
           placeholder="Password"
           className="input-field"
+          disabled={isLoading}
         />
 
-        {/* Primary Sign In Button */}
+        {/* Primary Sign In */}
         <button
           onClick={handleEmailLogin}
           className="btn primary premium-btn"
@@ -63,7 +69,7 @@ export default function LoginPage() {
 
         <div className="divider">OR</div>
 
-        {/* Social Buttons */}
+        {/* Social Login */}
         <button
           onClick={() => handleSocialLogin(signInWithGoogle)}
           className="btn google"
@@ -88,4 +94,4 @@ export default function LoginPage() {
       </div>
     </div>
   );
-      }
+}
