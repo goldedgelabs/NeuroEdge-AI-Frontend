@@ -16,7 +16,7 @@ export default function LoginPage({ onClose }) {
     signInEmail(email, pw)
       .then(() => {
         navigate('/app');
-        onClose?.(); // close modal if used
+        onClose?.(); // close modal if provided
       })
       .catch(err => alert(err.message))
       .finally(() => setIsLoading(false));
@@ -40,7 +40,7 @@ export default function LoginPage({ onClose }) {
       <h1 className="title">Sign in to NeuroEdge</h1>
 
       <div className="card">
-        {/* Email & Password */}
+        {/* Email Input */}
         <input
           type="email"
           value={email}
@@ -49,6 +49,8 @@ export default function LoginPage({ onClose }) {
           className="input-field"
           disabled={isLoading}
         />
+
+        {/* Password Input */}
         <input
           type="password"
           value={pw}
@@ -58,7 +60,7 @@ export default function LoginPage({ onClose }) {
           disabled={isLoading}
         />
 
-        {/* Primary Sign In */}
+        {/* Sign In Button */}
         <button
           onClick={handleEmailLogin}
           className="btn primary premium-btn"
@@ -69,7 +71,7 @@ export default function LoginPage({ onClose }) {
 
         <div className="divider">OR</div>
 
-        {/* Social Login */}
+        {/* Social Buttons */}
         <button
           onClick={() => handleSocialLogin(signInWithGoogle)}
           className="btn google"
@@ -94,4 +96,4 @@ export default function LoginPage({ onClose }) {
       </div>
     </div>
   );
-}
+          }
