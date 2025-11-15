@@ -2,43 +2,41 @@ const CACHE_NAME = "neuroedge-cache-v1";
 const ASSETS_TO_CACHE = [
   "/",
   "/index.html",
+  "/offline.html",
   "/manifest.json",
   "/favicon.ico",
   "/neuroedge-logo.png",
   "/src/styles/globals.css",
   "/src/styles/splashscreen.css"
-  // Add more assets here if needed
+  // Add more assets if needed
 ];
 
-// Install event: caching assets
+// Install: cache static assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
   );
   self.skipWaiting();
 });
 
-// Activate event: clean old caches
+// Activate: cleanup old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keys) =>
       Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) return caches.delete(key);
-        })
+        keys.map((key) => key !== CACHE_NAME && caches.delete(key))
       )
     )
   );
   console.log("NeuroEdge PWA Active & Ready");
 });
 
-// Fetch event: cache-first strategy
+// Fetch: cache-first strategy + offline fallback
 self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((cached) => {
       if (cached) return cached;
+
       return fetch(event.request)
         .then((response) => {
           return caches.open(CACHE_NAME).then((cache) => {
@@ -47,8 +45,10 @@ self.addEventListener("fetch", (event) => {
           });
         })
         .catch(() => {
-          // Optional: return offline fallback page if network fails
-          // return caches.match("/offline.html");
+          // Return offline page for navigation requests
+          if (event.request.mode === "navigate") {
+            return caches.match("/offline.html");
+          }
         });
     })
   );
