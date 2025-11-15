@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import MenuButtons from "./MenuButtons";
 import VoiceCommandButton from "./VoiceCommandButton";
 import ConnectionStatusDot from "./ConnectionStatusDot";
+import LoginPage from "./LoginPage";
 
-export default function Home() {
+export default function Home({ currentUser }) {
   const [isSending, setIsSending] = useState(false);
   const [files, setFiles] = useState([]);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Handle send button click
   const handleSend = () => {
@@ -32,13 +34,16 @@ export default function Home() {
           <ConnectionStatusDot color="red" />
         </div>
 
-        <button
-          className="signin-btn premium-btn"
-          aria-label="Sign In"
-          onClick={() => window.location.href = "/login"}
-        >
-          Get Started
-        </button>
+        {/* Optional login modal trigger */}
+        {!currentUser && (
+          <button
+            className="signin-btn premium-btn"
+            aria-label="Sign In"
+            onClick={() => setShowLoginModal(true)}
+          >
+            Get Started
+          </button>
+        )}
       </header>
 
       <h2 className="question">What would you like NeuroEdge to do?</h2>
@@ -95,9 +100,25 @@ export default function Home() {
         </div>
       )}
 
+      {/* Login Modal */}
+      {showLoginModal && (
+        <div className="login-modal-overlay" onClick={() => setShowLoginModal(false)}>
+          <div className="login-modal" onClick={(e) => e.stopPropagation()}>
+            <LoginPage />
+            <button
+              className="close-modal-btn"
+              onClick={() => setShowLoginModal(false)}
+              aria-label="Close Login Modal"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
+
       <p className="footer-note">
         NeuroEdge can make mistakes. Check important info.
       </p>
     </div>
   );
-}
+        }
