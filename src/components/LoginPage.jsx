@@ -6,18 +6,36 @@ import '../styles/login.css';
 export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [pw, setPw] = useState('');
+  const [isLoading, setIsLoading] = useState(false); // optional loader
   const navigate = useNavigate();
 
   const handleEmailLogin = () => {
+    if (!email || !pw) return alert("Please enter email and password.");
+    setIsLoading(true);
     signInEmail(email, pw)
       .then(() => navigate('/app'))
-      .catch(err => alert(err.message));
+      .catch(err => alert(err.message))
+      .finally(() => setIsLoading(false));
+  };
+
+  const handleSocialLogin = async (providerFn) => {
+    setIsLoading(true);
+    try {
+      await providerFn();
+      navigate('/app');
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="login-container">
       <h1 className="title">Sign in to NeuroEdge</h1>
+
       <div className="card">
+        {/* Email Input */}
         <input
           type="email"
           value={email}
@@ -25,6 +43,7 @@ export default function LoginPage() {
           placeholder="Email address"
           className="input-field"
         />
+        {/* Password Input */}
         <input
           type="password"
           value={pw}
@@ -32,12 +51,41 @@ export default function LoginPage() {
           placeholder="Password"
           className="input-field"
         />
-        <button onClick={handleEmailLogin} className="btn primary">Sign In</button>
+
+        {/* Primary Sign In Button */}
+        <button
+          onClick={handleEmailLogin}
+          className="btn primary premium-btn"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Signing In...' : 'Sign In'}
+        </button>
+
         <div className="divider">OR</div>
-        <button onClick={() => signInWithGoogle().then(() => navigate('/app'))} className="btn google">Continue with Google</button>
-        <button onClick={() => signInWithApple().then(() => navigate('/app'))} className="btn apple">Continue with Apple</button>
-        <button onClick={() => signInWithGitHub().then(() => navigate('/app'))} className="btn github">Continue with GitHub</button>
+
+        {/* Social Buttons */}
+        <button
+          onClick={() => handleSocialLogin(signInWithGoogle)}
+          className="btn google"
+          disabled={isLoading}
+        >
+          Continue with Google
+        </button>
+        <button
+          onClick={() => handleSocialLogin(signInWithApple)}
+          className="btn apple"
+          disabled={isLoading}
+        >
+          Continue with Apple
+        </button>
+        <button
+          onClick={() => handleSocialLogin(signInWithGitHub)}
+          className="btn github"
+          disabled={isLoading}
+        >
+          Continue with GitHub
+        </button>
       </div>
     </div>
   );
-}
+      }
