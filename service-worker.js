@@ -1,55 +1,48 @@
 const CACHE_NAME = "neuroedge-cache-v1";
-const ASSETS_TO_CACHE = [
-  "/",
-  "/index.html",
-  "/offline.html",
-  "/manifest.json",
-  "/favicon.ico",
-  "/neuroedge-logo.png",
-  "/src/styles/globals.css",
-  "/src/styles/splashscreen.css"
-  // Add more assets if needed
-];
+const OFFLINE_URL = "/offline.html";
 
-// Install: cache static assets
+// Install event: cache offline page and assets
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS_TO_CACHE))
+    (async () => {
+      const cache = await caches.open(CACHE_NAME);
+      // Pre-cache the offline page
+      await cache.add(new Request(OFFLINE_URL, { cache: "reload" }));
+    })()
   );
   self.skipWaiting();
 });
 
-// Activate: cleanup old caches
+// Activate event: clean up old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((keys) =>
-      Promise.all(
-        keys.map((key) => key !== CACHE_NAME && caches.delete(key))
-      )
-    )
+    (async () => {
+      const cacheNames = await caches.keys();
+      await Promise.all(
+        cacheNames
+          .filter((name) => name !== CACHE_NAME)
+          .map((name) => caches.delete(name))
+      );
+    })()
   );
-  console.log("NeuroEdge PWA Active & Ready");
+  self.clients.claim();
+  console.log("NeuroEdge PWA Active");
 });
 
-// Fetch: cache-first strategy + offline fallback
+// Fetch event: serve cached assets or fallback offline page
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
-
-      return fetch(event.request)
-        .then((response) => {
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, response.clone());
-            return response;
-          });
-        })
-        .catch(() => {
-          // Return offline page for navigation requests
-          if (event.request.mode === "navigate") {
-            return caches.match("/offline.html");
-          }
-        });
-    })
-  );
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).catch(async () => {
+        const cache = await caches.open(CACHE_NAME);
+        return cache.match(OFFLINE_URL);
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      })
+    );
+  }
 });
