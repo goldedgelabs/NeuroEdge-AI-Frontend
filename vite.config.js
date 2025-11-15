@@ -7,6 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      includeAssets: ["favicon.ico", "offline.html", "neuroedge-logo.png"],
       manifest: {
         name: "NeuroEdge AI",
         short_name: "NeuroEdge",
@@ -25,7 +26,7 @@ export default defineConfig({
       workbox: {
         runtimeCaching: [
           {
-            // Cache all local assets (images, CSS, JS)
+            // Cache all local static assets
             urlPattern: /^.*\.(png|jpg|jpeg|svg|css|js)$/,
             handler: "CacheFirst",
             options: {
