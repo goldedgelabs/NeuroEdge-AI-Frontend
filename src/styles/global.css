@@ -217,11 +217,6 @@ body {
   animation: spin 0.9s linear infinite;
 }
 
-@keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
 /* Status dot blinking animation */
 @keyframes blinkOnline {
   0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(255, 215, 0, 0.6); }
