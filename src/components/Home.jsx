@@ -34,7 +34,7 @@ export default function Home({ currentUser }) {
           <ConnectionStatusDot color="red" />
         </div>
 
-        {/* Optional login modal trigger */}
+        {/* Show login button only if user is not logged in */}
         {!currentUser && (
           <button
             className="signin-btn premium-btn"
@@ -102,11 +102,17 @@ export default function Home({ currentUser }) {
 
       {/* Login Modal */}
       {showLoginModal && (
-        <div className="login-modal-overlay" onClick={() => setShowLoginModal(false)}>
-          <div className="login-modal" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="login-modal-overlay"
+          onClick={() => setShowLoginModal(false)}
+        >
+          <div
+            className="login-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
             <LoginPage />
             <button
-              className="close-modal-btn"
+              className="login-modal-close"
               onClick={() => setShowLoginModal(false)}
               aria-label="Close Login Modal"
             >
